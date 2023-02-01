@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
+import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
 
 class CustomerRegister extends StatefulWidget {
   const CustomerRegister({super.key});
@@ -64,7 +65,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       ),
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.camera_alt),
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        color: AppColors.white,
+                      ),
                       onPressed: () {
                         log('pick image from camera');
                       },
@@ -82,7 +86,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       ),
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.camera_alt),
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        color: AppColors.white,
+                      ),
                       onPressed: () {
                         log('pick image from gallery');
                       },
@@ -92,64 +99,29 @@ class _CustomerRegisterState extends State<CustomerRegister> {
               ),
             ],
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Full name',
-              hintText: 'Enter your full name',
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepOrangeAccent,
-                  width: 2,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              children: const [
+                TextFormFieldWidget(
+                  hintText: 'Enter your full name',
+                  labelText: 'Full Name',
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepPurpleAccent,
-                  width: 2,
+                SizedBox(
+                  height: 15,
                 ),
-              ),
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Full name',
-              hintText: 'Enter your full name',
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepOrangeAccent,
-                  width: 2,
+                TextFormFieldWidget(
+                  hintText: 'Enter your email',
+                  labelText: 'Email',
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepPurpleAccent,
-                  width: 2,
+                SizedBox(
+                  height: 15,
                 ),
-              ),
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Full name',
-              hintText: 'Enter your full name',
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepOrangeAccent,
-                  width: 2,
+                TextFormFieldWidget(
+                  hintText: 'Enter your password',
+                  labelText: 'Password',
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: const BorderSide(
-                  color: AppColors.deepPurpleAccent,
-                  width: 2,
-                ),
-              ),
+              ],
             ),
           ),
         ],
@@ -157,3 +129,4 @@ class _CustomerRegisterState extends State<CustomerRegister> {
     );
   }
 }
+//https://www.youtube.com/watch?v=OoiJCnPbWj0 53

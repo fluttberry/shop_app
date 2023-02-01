@@ -4,7 +4,6 @@ import 'package:shop_app/app/constants/presentation/main_screen/customer_screen.
 import 'package:shop_app/app/constants/presentation/main_screen/supplier_home_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/welcome_screen.dart';
 
-
 void main() {
   runApp(const ShopApp());
 }
@@ -19,7 +18,7 @@ class ShopApp extends StatelessWidget {
       // home: WelcomeScreen(),
       // home: const CustomerScreen(),
       // initialRoute: '/customer_screen',
-      initialRoute: '/supplier_home_screen',
+      initialRoute: '/customer_register',
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_screen': (context) => const CustomerScreen(),
