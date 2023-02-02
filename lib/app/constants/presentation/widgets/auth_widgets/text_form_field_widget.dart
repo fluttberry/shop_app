@@ -6,15 +6,21 @@ class TextFormFieldWidget extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.labelText,
+    this.widget,
+    this.obscureText = false,
   });
 
   final String hintText;
   final String labelText;
+  final Widget? widget;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       decoration: InputDecoration(
+        suffixIcon: widget,
         labelText: labelText,
         hintText: hintText,
         enabledBorder: OutlineInputBorder(

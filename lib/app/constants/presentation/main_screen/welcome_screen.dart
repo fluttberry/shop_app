@@ -48,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: AppDecartion.welcomeDecoration,
+        decoration: AppDecoration.welcomeDecoration,
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(

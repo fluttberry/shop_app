@@ -37,10 +37,10 @@ class AppTextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static const TextStyle purple15Bold = TextStyle(
+  static const TextStyle purple20Bold = TextStyle(
     color: AppColors.purple,
     fontWeight: FontWeight.bold,
-    fontSize: 15.0,
+    fontSize: 20.0,
   );
   static const TextStyle red25Acme = TextStyle(
     fontSize: 25.0,
@@ -52,6 +52,11 @@ class AppTextStyles {
     fontSize: 15.0,
     color: Colors.white,
     fontWeight: FontWeight.bold,
+  );
+  static const TextStyle black16Italic = TextStyle(
+    fontSize: 16.0,
+    color: Colors.black,
+    fontStyle: FontStyle.italic,
   );
   static const TextStyle white20 = TextStyle(
     fontSize: 20.0,
