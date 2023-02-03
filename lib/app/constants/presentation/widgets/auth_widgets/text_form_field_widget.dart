@@ -8,16 +8,19 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.labelText,
     this.widget,
     this.obscureText = false,
+    required this.keyBoardType,
   });
 
   final String hintText;
   final String labelText;
   final Widget? widget;
   final bool obscureText;
+  final TextInputType keyBoardType;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyBoardType,
       obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: widget,

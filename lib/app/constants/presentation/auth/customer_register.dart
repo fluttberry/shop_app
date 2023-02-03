@@ -13,12 +13,16 @@ class CustomerRegister extends StatefulWidget {
 }
 
 class _CustomerRegisterState extends State<CustomerRegister> {
+  bool passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            reverse: true,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -110,6 +114,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                   child: Column(
                     children: [
                       const TextFormFieldWidget(
+                        keyBoardType: TextInputType.text,
                         hintText: 'Enter your full name',
                         labelText: 'Full Name',
                       ),
@@ -117,6 +122,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                         height: 15,
                       ),
                       const TextFormFieldWidget(
+                        keyBoardType: TextInputType.emailAddress,
                         hintText: 'Enter your email',
                         labelText: 'Email',
                       ),
@@ -124,13 +130,22 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                         height: 15,
                       ),
                       TextFormFieldWidget(
-                        obscureText: true,
+                        keyBoardType: TextInputType.visiblePassword,
+                        obscureText: passwordVisible
+                            ? passwordVisible = false
+                            : passwordVisible = true,
                         hintText: 'Enter your password',
                         labelText: 'Password',
                         widget: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.visibility_off,
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = passwordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            passwordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         ),
                       ),
@@ -179,4 +194,3 @@ class _CustomerRegisterState extends State<CustomerRegister> {
     );
   }
 }
-//https://www.youtube.com/watch?v=OoiJCnPbWj0 1-15
