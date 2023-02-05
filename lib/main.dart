@@ -18,12 +18,13 @@ class ShopApp extends StatelessWidget {
       // home: WelcomeScreen(),
       // home: const CustomerScreen(),
       // initialRoute: '/customer_screen',
-      initialRoute: '/customer_register',
+      initialRoute: '/welcome_screen',
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_screen': (context) => const CustomerScreen(),
         '/supplier_home_screen': (context) => const SupplierHomeScreen(),
         '/customer_register': (context) => const CustomerRegister(),
+         
       },
     );
   }

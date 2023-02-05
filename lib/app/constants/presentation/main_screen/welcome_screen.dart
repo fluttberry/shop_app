@@ -6,7 +6,6 @@ import 'package:shop_app/app/constants/presentation/widgets/animation_widgets/an
 import 'package:shop_app/app/constants/presentation/widgets/animation_widgets/google_facebook_login_widget.dart';
 import 'package:shop_app/app/constants/presentation/widgets/buttons/yellow_button_widget.dart';
 
-
 const textColors = [
   Colors.yellowAccent,
   Colors.red,
@@ -150,7 +149,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             ),
                             YellowButtonWidget(
                               lable: 'Log In',
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/supplier_home_screen');
+                              },
                               width: 0.25,
                             ),
                             YellowButtonWidget(
@@ -185,7 +187,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       children: [
                         YellowButtonWidget(
                           lable: 'Log In',
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/customer_screen');
+                          },
                           width: 0.25,
                         ),
                         YellowButtonWidget(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/category_screen.dart';
-import 'package:shop_app/app/constants/presentation/main_screen/dashboar_screen.dart';
+import 'package:shop_app/app/constants/presentation/main_screen/dashboard_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/home_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/store_screen.dart';
 
