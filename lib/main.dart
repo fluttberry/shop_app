@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/app/constants/presentation/auth/customer_register.dart';
+import 'package:shop_app/app/constants/presentation/auth/customer_register_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/customer_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/dashboard_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/supplier_home_screen.dart';
@@ -24,7 +24,7 @@ class ShopApp extends StatelessWidget {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_screen': (context) => const CustomerScreen(),
         '/supplier_home_screen': (context) => const SupplierHomeScreen(),
-        '/customer_register': (context) => const CustomerRegister(),
+        '/customer_register': (context) => const CustomerRegisterScreen(),
         '/dashboard_screen': (context) => const DashboardScreen(),
       },
     );

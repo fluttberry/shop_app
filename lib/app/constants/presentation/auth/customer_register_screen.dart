@@ -1,18 +1,34 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
 import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
 
-class CustomerRegister extends StatefulWidget {
-  const CustomerRegister({super.key});
+class CustomerRegisterScreen extends StatefulWidget {
+  const CustomerRegisterScreen({super.key});
 
   @override
-  State<CustomerRegister> createState() => _CustomerRegisterState();
+  State<CustomerRegisterScreen> createState() => _CustomerRegisterScreenState();
 }
 
-class _CustomerRegisterState extends State<CustomerRegister> {
+class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _imageFile;
+  void _pickImageFromCamera() async {
+    final _pickedImage = await _picker.pickImage(
+      imageQuality: 95,
+      maxHeight: 300,
+      maxWidth: 300,
+      source: ImageSource.camera,
+    );
+    setState(() {
+      _imageFile = _pickedImage;
+    });
+  }
+
   late String _name;
   late String _email;
   late String _password;
@@ -81,12 +97,19 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                     ),
                     Row(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 30,
                             horizontal: 40,
                           ),
                           child: CircleAvatar(
+                            backgroundImage: _imageFile == null
+                                ? null
+                                : FileImage(
+                                    File(
+                                      _imageFile!.path,
+                                    ),
+                                  ),
                             radius: 60,
                             backgroundColor: Colors.purpleAccent,
                           ),
@@ -107,6 +130,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                                   color: AppColors.white,
                                 ),
                                 onPressed: () {
+                                  _pickImageFromCamera();
                                   log('pick image from camera');
                                 },
                               ),
@@ -124,7 +148,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                               ),
                               child: IconButton(
                                 icon: const Icon(
-                                  Icons.camera_alt,
+                                  Icons.photo,
                                   color: AppColors.white,
                                 ),
                                 onPressed: () {
@@ -267,16 +291,4 @@ extension EmailValidator on String {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-//https://www.youtube.com/watch?v=viCE2SJbHMo 31
+//https://www.youtube.com/watch?v=pS4nawewiX0 17

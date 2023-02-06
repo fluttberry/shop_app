@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 
+// ignore: must_be_immutable
 class TextFormFieldWidget extends StatelessWidget {
-   TextFormFieldWidget({
+  TextFormFieldWidget({
     super.key,
     required this.hintText,
     required this.labelText,
@@ -12,7 +13,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.obscureText = false,
     required this.keyBoardType,
   });
-final Function(String)? onChanged;
+  final Function(String)? onChanged;
   final String hintText;
   final String labelText;
   final Widget? widget;
