@@ -13,6 +13,13 @@ class CustomerRegister extends StatefulWidget {
 }
 
 class _CustomerRegisterState extends State<CustomerRegister> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late String _name;
+  late String _email;
+  late String _password;
+
   bool passwordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -117,10 +124,12 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                     child: Column(
                       children: [
                         TextFormFieldWidget(
+                          controller: _nameController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'please enter your full name';
                             }
+                            _name = _nameController.text;
                             return null;
                           },
                           keyBoardType: TextInputType.text,
@@ -131,9 +140,15 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                           height: 15,
                         ),
                         TextFormFieldWidget(
+                          controller: _emailController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'please enter your email';
+                            } else if (value.isValidEmail() == false) {
+                              return 'invalid email';
+                            } else if (value.isValidEmail() == true) {
+                              _email = _emailController.text;
+                              return null;
                             }
                             return null;
                           },
@@ -145,10 +160,12 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                           height: 15,
                         ),
                         TextFormFieldWidget(
+                          controller: _passwordController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'please enter your password';
                             }
+                            _password = _passwordController.text;
                             return null;
                           },
                           keyBoardType: TextInputType.visiblePassword,
@@ -200,6 +217,9 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         log('valid');
+                        log(_name);
+                        log(_email);
+                        log(_password);
                       } else {
                         log('not valid');
                       }
@@ -214,4 +234,25 @@ class _CustomerRegisterState extends State<CustomerRegister> {
     );
   }
 }
+
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^([a-zA-Z0-9]+)([\-\_\.]*)([a-zA-Z0-9]*)([@])([a-zA-Z0-9]{2,})([\. ])([a-zA-Z]{2,3})$')
+        .hasMatch(this);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //https://www.youtube.com/watch?v=viCE2SJbHMo 31

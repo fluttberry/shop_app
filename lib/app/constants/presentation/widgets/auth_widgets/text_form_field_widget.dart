@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
-  const TextFormFieldWidget({
+   TextFormFieldWidget({
     super.key,
     required this.hintText,
     required this.labelText,
     required this.validator,
+    required this.controller,
     this.widget,
     this.obscureText = false,
     required this.keyBoardType,
@@ -18,10 +19,12 @@ class TextFormFieldWidget extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyBoardType;
   final String? Function(String?)? validator;
+  TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       validator: validator,
       keyboardType: keyBoardType,
       obscureText: obscureText,
