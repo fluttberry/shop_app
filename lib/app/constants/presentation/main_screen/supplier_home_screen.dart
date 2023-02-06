@@ -5,7 +5,6 @@ import 'package:shop_app/app/constants/presentation/main_screen/dashboard_screen
 import 'package:shop_app/app/constants/presentation/main_screen/home_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/store_screen.dart';
 
-
 class SupplierHomeScreen extends StatefulWidget {
   const SupplierHomeScreen({super.key});
 

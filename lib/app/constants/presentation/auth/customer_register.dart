@@ -121,6 +121,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                             if (value!.isEmpty) {
                               return 'please enter your full name';
                             }
+                            return null;
                           },
                           keyBoardType: TextInputType.text,
                           hintText: 'Enter your full name',
@@ -134,6 +135,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                             if (value!.isEmpty) {
                               return 'please enter your email';
                             }
+                            return null;
                           },
                           keyBoardType: TextInputType.emailAddress,
                           hintText: 'Enter your email',
@@ -147,6 +149,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                             if (value!.isEmpty) {
                               return 'please enter your password';
                             }
+                            return null;
                           },
                           keyBoardType: TextInputType.visiblePassword,
                           obscureText: passwordVisible
@@ -211,3 +214,4 @@ class _CustomerRegisterState extends State<CustomerRegister> {
     );
   }
 }
+//https://www.youtube.com/watch?v=viCE2SJbHMo 31

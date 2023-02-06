@@ -24,7 +24,6 @@ class ShopApp extends StatelessWidget {
         '/customer_screen': (context) => const CustomerScreen(),
         '/supplier_home_screen': (context) => const SupplierHomeScreen(),
         '/customer_register': (context) => const CustomerRegister(),
-         
       },
     );
   }

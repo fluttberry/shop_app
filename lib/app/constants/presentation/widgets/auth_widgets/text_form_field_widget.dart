@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
-   TextFormFieldWidget({
+  const TextFormFieldWidget({
     super.key,
     required this.hintText,
     required this.labelText,
