@@ -7,12 +7,12 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.labelText,
     required this.validator,
-    required this.controller,
+    required this.onChanged,
     this.widget,
     this.obscureText = false,
     required this.keyBoardType,
   });
-
+final Function(String)? onChanged;
   final String hintText;
   final String labelText;
   final Widget? widget;
@@ -24,7 +24,7 @@ class TextFormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
+      onChanged: onChanged,
       validator: validator,
       keyboardType: keyBoardType,
       obscureText: obscureText,
