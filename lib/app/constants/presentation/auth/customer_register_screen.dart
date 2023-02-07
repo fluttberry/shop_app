@@ -17,16 +17,43 @@ class CustomerRegisterScreen extends StatefulWidget {
 class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
+  dynamic _pickedImageError;
   void _pickImageFromCamera() async {
-    final _pickedImage = await _picker.pickImage(
-      imageQuality: 95,
-      maxHeight: 300,
-      maxWidth: 300,
-      source: ImageSource.camera,
-    );
-    setState(() {
-      _imageFile = _pickedImage;
-    });
+    try {
+      final _pickedImage = await _picker.pickImage(
+        imageQuality: 95,
+        maxHeight: 300,
+        maxWidth: 300,
+        source: ImageSource.camera,
+      );
+      setState(() {
+        _imageFile = _pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickedImageError = e;
+      });
+      log(_pickedImageError);
+    }
+  }
+
+  void _pickImageFromGallery() async {
+    try {
+      final _pickedImage = await _picker.pickImage(
+        imageQuality: 95,
+        maxHeight: 300,
+        maxWidth: 300,
+        source: ImageSource.gallery,
+      );
+      setState(() {
+        _imageFile = _pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickedImageError = e;
+      });
+      log(_pickedImageError);
+    }
   }
 
   late String _name;
@@ -152,6 +179,7 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                                   color: AppColors.white,
                                 ),
                                 onPressed: () {
+                                  _pickImageFromGallery();
                                   log('pick image from gallery');
                                 },
                               ),
