@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
@@ -288,7 +291,22 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                     ),
                     AuthMainButtonWidget(
                       mainButtonLabel: 'Sign Up',
-                      onTap: () {
+                      onTap: () async {
+                        try {
+                          final userCredential =
+                              await FirebaseAuth.instance.signInAnonymously();
+                          print("Signed in with temporary account.");
+                        } on FirebaseAuthException catch (e) {
+                          switch (e.code) {
+                            case "operation-not-allowed":
+                              print(
+                                  "Anonymous auth hasn't been enabled for this project.");
+                              break;
+                            default:
+                              print("Unknown error.");
+                          }
+                        }
+
                         if (_formKey.currentState!.validate()) {
                           log('valid');
                           log(_name);
@@ -318,5 +336,3 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
-
-//https://www.youtube.com/watch?v=pS4nawewiX0 17

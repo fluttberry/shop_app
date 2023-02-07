@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/presentation/auth/customer_register_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/customer_screen.dart';
@@ -5,7 +6,9 @@ import 'package:shop_app/app/constants/presentation/main_screen/dashboard_screen
 import 'package:shop_app/app/constants/presentation/main_screen/supplier_home_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/welcome_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const ShopApp());
 }
 
