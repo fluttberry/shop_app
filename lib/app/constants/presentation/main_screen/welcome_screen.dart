@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/decoration/app_decoration.dart';
@@ -229,7 +230,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       child: const Image(
                         image: AssetImage('images/inapp/facebook.jpg'),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signInAnonymously();
+                        Navigator.pushReplacementNamed(
+                            context, '/customer_screen');
+                      },
                     ),
                     GooglefacebookLoginWidget(
                       lable: 'Guest',
@@ -250,3 +255,4 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 }
+//https://www.youtube.com/watch?v=ZgB2P8uKr_4 26

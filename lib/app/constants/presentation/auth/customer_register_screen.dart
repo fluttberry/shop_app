@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers
 
 import 'dart:developer';
 import 'dart:io';
@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
+import 'package:shop_app/app/constants/presentation/auth/auth_snack_bar_widget/my_message_handler.dart';
 import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
 import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
@@ -67,22 +68,6 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
-  void showSnackBar() {
-    _scaffoldKey.currentState!.showSnackBar(
-      const SnackBar(
-        duration: Duration(seconds: 2),
-        backgroundColor: AppColors.yellow,
-        content: Text(
-          'Please fill your blanks',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            color: AppColors.black,
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -292,29 +277,40 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                     AuthMainButtonWidget(
                       mainButtonLabel: 'Sign Up',
                       onTap: () async {
-                        try {
-                          final userCredential =
-                              await FirebaseAuth.instance.signInAnonymously();
-                          print("Signed in with temporary account.");
-                        } on FirebaseAuthException catch (e) {
-                          switch (e.code) {
-                            case "operation-not-allowed":
-                              print(
-                                  "Anonymous auth hasn't been enabled for this project.");
-                              break;
-                            default:
-                              print("Unknown error.");
-                          }
-                        }
+                        // try {
+                        //   final userCredential =
+                        //       await FirebaseAuth.instance.signInAnonymously();
+                        //   print("Signed in with temporary account.");
+                        // } on FirebaseAuthException catch (e) {
+                        //   switch (e.code) {
+                        //     case "operation-not-allowed":
+                        //       print(
+                        //           "Anonymous auth hasn't been enabled for this project.");
+                        //       break;
+                        //     default:
+                        //       print("Unknown error.");
+                        //   }
+                        // }
 
                         if (_formKey.currentState!.validate()) {
-                          log('valid');
-                          log(_name);
-                          log(_email);
-                          log(_password);
+                          if (_imageFile != null) {
+                            log('valid');
+                            log(_name);
+                            log(_email);
+                            log(_password);
+                          } else {
+                            MyMessageHandler.showSnackBar(
+                                _scaffoldKey, 'Please pick an image first');
+                          }
+
+                          _formKey.currentState!.reset();
+                          setState(() {
+                            _imageFile = null;
+                          });
                         } else {
                           log('not valid');
-                          showSnackBar();
+                          MyMessageHandler.showSnackBar(
+                              _scaffoldKey, 'Not Valid');
                         }
                       },
                     ),
@@ -336,3 +332,4 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
+
