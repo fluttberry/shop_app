@@ -69,6 +69,50 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  void signUp() async {
+    if (_formKey.currentState!.validate()) {
+      if (_imageFile != null) {
+        try {
+          // ignore: unused_local_variable
+          // final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _email,
+            password: _password,
+          );
+          Navigator.pushReplacementNamed(context, '/customer_screen');
+          _formKey.currentState!.reset();
+          setState(() {
+            _imageFile = null;
+          });
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'weak-password') {
+            MyMessageHandler.showSnackBar(
+              _scaffoldKey,
+              'The password provided is too weak.',
+            );
+            log('The password provided is too weak.');
+          } else if (e.code == 'email-already-in-use') {
+            MyMessageHandler.showSnackBar(
+              _scaffoldKey,
+              'The account already exists for that email.',
+            );
+            log(
+              'The account already exists for that email.',
+            );
+          }
+        } catch (e) {
+          print(e);
+        }
+      } else {
+        MyMessageHandler.showSnackBar(
+            _scaffoldKey, 'Please pick an image first');
+      }
+    } else {
+      log('not valid');
+      MyMessageHandler.showSnackBar(_scaffoldKey, 'Not Valid');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -277,40 +321,20 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                     AuthMainButtonWidget(
                       mainButtonLabel: 'Sign Up',
                       onTap: () async {
-                        // try {
-                        //   final userCredential =
-                        //       await FirebaseAuth.instance.signInAnonymously();
-                        //   print("Signed in with temporary account.");
-                        // } on FirebaseAuthException catch (e) {
-                        //   switch (e.code) {
-                        //     case "operation-not-allowed":
-                        //       print(
-                        //           "Anonymous auth hasn't been enabled for this project.");
-                        //       break;
-                        //     default:
-                        //       print("Unknown error.");
-                        //   }
-                        // }
-
-                        if (_formKey.currentState!.validate()) {
-                          if (_imageFile != null) {
-                            log('valid');
-                            log(_name);
-                            log(_email);
-                            log(_password);
-                          } else {
-                            MyMessageHandler.showSnackBar(
-                                _scaffoldKey, 'Please pick an image first');
+                        signUp();
+                        try {
+                          final userCredential =
+                              await FirebaseAuth.instance.signInAnonymously();
+                          print("Signed in with temporary account.");
+                        } on FirebaseAuthException catch (e) {
+                          switch (e.code) {
+                            case "operation-not-allowed":
+                              print(
+                                  "Anonymous auth hasn't been enabled for this project.");
+                              break;
+                            default:
+                              print("Unknown error.");
                           }
-
-                          _formKey.currentState!.reset();
-                          setState(() {
-                            _imageFile = null;
-                          });
-                        } else {
-                          log('not valid');
-                          MyMessageHandler.showSnackBar(
-                              _scaffoldKey, 'Not Valid');
                         }
                       },
                     ),
@@ -332,4 +356,3 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
-

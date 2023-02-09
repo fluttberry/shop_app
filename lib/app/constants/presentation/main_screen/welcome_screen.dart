@@ -232,6 +232,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                       onPressed: () async {
                         await FirebaseAuth.instance.signInAnonymously();
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacementNamed(
                             context, '/customer_screen');
                       },
@@ -255,4 +256,3 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 }
-//https://www.youtube.com/watch?v=ZgB2P8uKr_4 26
