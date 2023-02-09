@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
@@ -11,15 +12,23 @@ import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_fo
 import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
 
-class CustomerRegisterScreen extends StatefulWidget {
-  const CustomerRegisterScreen({super.key});
+class CustomerSignUp extends StatefulWidget {
+  const CustomerSignUp({super.key});
 
   @override
-  State<CustomerRegisterScreen> createState() => _CustomerRegisterScreenState();
+  State<CustomerSignUp> createState() => _CustomerSignUpState();
 }
 
-class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
+class _CustomerSignUpState extends State<CustomerSignUp> {
   final ImagePicker _picker = ImagePicker();
+  late String _name;
+  late String _email;
+  late String _password;
+
+  bool passwordVisible = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
   XFile? _imageFile;
   dynamic _pickedImageError;
   void _pickImageFromCamera() async {
@@ -60,15 +69,6 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
     }
   }
 
-  late String _name;
-  late String _email;
-  late String _password;
-
-  bool passwordVisible = false;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-      GlobalKey<ScaffoldMessengerState>();
-
   void signUp() async {
     if (_formKey.currentState!.validate()) {
       if (_imageFile != null) {
@@ -78,6 +78,14 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _email,
             password: _password,
+          );
+          firebase_storage.Reference ref = firebase_storage
+              .FirebaseStorage.instance
+              .ref('cust-image/$_email.jpg');
+          await ref.putFile(
+            File(
+              _imageFile!.path,
+            ),
           );
           Navigator.pushReplacementNamed(context, '/customer_screen');
           _formKey.currentState!.reset();
@@ -322,20 +330,6 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                       mainButtonLabel: 'Sign Up',
                       onTap: () async {
                         signUp();
-                        try {
-                          final userCredential =
-                              await FirebaseAuth.instance.signInAnonymously();
-                          print("Signed in with temporary account.");
-                        } on FirebaseAuthException catch (e) {
-                          switch (e.code) {
-                            case "operation-not-allowed":
-                              print(
-                                  "Anonymous auth hasn't been enabled for this project.");
-                              break;
-                            default:
-                              print("Unknown error.");
-                          }
-                        }
                       },
                     ),
                   ],
@@ -356,3 +350,4 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
+//https://www.youtube.com/watch?v=c3GepoXceKU 38
