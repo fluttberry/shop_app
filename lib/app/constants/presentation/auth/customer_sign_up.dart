@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   late String _name;
   late String _email;
   late String _password;
+  late String _uid;
 
   bool passwordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -69,6 +71,9 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
     }
   }
 
+  CollectionReference customers =
+      FirebaseFirestore.instance.collection('customers');
+
   void signUp() async {
     if (_formKey.currentState!.validate()) {
       if (_imageFile != null) {
@@ -82,11 +87,15 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
               .ref('cust-image/$_email.jpg');
-          await ref.putFile(
-            File(
-              _imageFile!.path,
-            ),
-          );
+          await ref.putFile(File(_imageFile!.path));
+          _uid = FirebaseAuth.instance.currentUser!.uid;
+          customers.doc(_uid).set({
+            'namw': _name,
+            'email': _email,
+            'phone': '',
+            'address': '',
+            'cid': _uid,
+          });
           Navigator.pushReplacementNamed(context, '/customer_screen');
           _formKey.currentState!.reset();
           setState(() {
