@@ -26,6 +26,8 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   late String _email;
   late String _password;
   late String _uid;
+  late String _profileImage;
+  bool processing = false;
 
   bool passwordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -75,6 +77,9 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
       FirebaseFirestore.instance.collection('customers');
 
   void signUp() async {
+    setState(() {
+      processing = true;
+    });
     if (_formKey.currentState!.validate()) {
       if (_imageFile != null) {
         try {
@@ -88,12 +93,14 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
               .FirebaseStorage.instance
               .ref('cust-image/$_email.jpg');
           await ref.putFile(File(_imageFile!.path));
+          _profileImage = await ref.getDownloadURL();
           _uid = FirebaseAuth.instance.currentUser!.uid;
           customers.doc(_uid).set({
             'namw': _name,
             'email': _email,
             'phone': '',
             'address': '',
+            'profileImage': _profileImage,
             'cid': _uid,
           });
           Navigator.pushReplacementNamed(context, '/customer_screen');
@@ -103,12 +110,18 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
           });
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
+            setState(() {
+              processing = false;
+            });
             MyMessageHandler.showSnackBar(
               _scaffoldKey,
               'The password provided is too weak.',
             );
             log('The password provided is too weak.');
           } else if (e.code == 'email-already-in-use') {
+            setState(() {
+              processing = false;
+            });
             MyMessageHandler.showSnackBar(
               _scaffoldKey,
               'The account already exists for that email.',
@@ -121,10 +134,16 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
           print(e);
         }
       } else {
+        setState(() {
+          processing = false;
+        });
         MyMessageHandler.showSnackBar(
             _scaffoldKey, 'Please pick an image first');
       }
     } else {
+      setState(() {
+        processing = false;
+      });
       log('not valid');
       MyMessageHandler.showSnackBar(_scaffoldKey, 'Not Valid');
     }
@@ -335,12 +354,18 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                     const SizedBox(
                       height: 55,
                     ),
-                    AuthMainButtonWidget(
-                      mainButtonLabel: 'Sign Up',
-                      onTap: () async {
-                        signUp();
-                      },
-                    ),
+                    processing == true
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.purple,
+                            ),
+                          )
+                        : AuthMainButtonWidget(
+                            mainButtonLabel: 'Sign Up',
+                            onTap: () async {
+                              signUp();
+                            },
+                          ),
                   ],
                 ),
               ),
@@ -359,4 +384,3 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
-//https://www.youtube.com/watch?v=c3GepoXceKU 38
