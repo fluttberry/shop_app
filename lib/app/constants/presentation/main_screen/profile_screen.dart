@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/customer_screens/customer_order_screen.dart';
@@ -291,7 +292,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const RedDividerWidget(),
                                   RepeatedListStyleWidget(
                                     icon: Icons.logout,
-                                    title: 'Logout', onPressed: () {},
+                                    title: 'Logout',
+                                    onPressed: () async {
+                                      await FirebaseAuth.instance.signOut();
+                                      Navigator.pushReplacementNamed(
+                                          context, '/welcome_screen');
+                                    },
                                     // subtitle: 'K.Datka street, Osh city, Kyrgyz Republic',
                                   ),
                                 ],

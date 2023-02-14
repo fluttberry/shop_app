@@ -192,7 +192,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           lable: 'Log In',
                           onTap: () {
                             Navigator.pushReplacementNamed(
-                                context, '/customer_screen');
+                                context, '/customer_login_screen');
                           },
                           width: 0.25,
                         ),
@@ -200,7 +200,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           lable: 'Sign Up',
                           onTap: () {
                             Navigator.pushReplacementNamed(
-                                context, '/customer_register');
+                                context, '/customer_signup_screen');
                           },
                           width: 0.25,
                         ),
@@ -248,8 +248,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                       onPressed: () async {
                         try {
-                          final userCredential =
-                              await FirebaseAuth.instance.signInAnonymously();
+                          await FirebaseAuth.instance.signInAnonymously();
                           print("Signed in with temporary account.");
                         } on FirebaseAuthException catch (e) {
                           switch (e.code) {

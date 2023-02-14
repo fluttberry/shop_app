@@ -9,19 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_snack_bar_widget/my_message_handler.dart';
-import 'package:shop_app/app/constants/presentation/auth/auth_widgets/have_account_widget.dart';
 import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
 import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
+import 'auth_widgets/have_account_widget.dart';
 
-class CustomerSignUp extends StatefulWidget {
-  const CustomerSignUp({super.key});
+class CustomerLogIn extends StatefulWidget {
+  const CustomerLogIn({super.key});
 
   @override
-  State<CustomerSignUp> createState() => _CustomerSignUpState();
+  State<CustomerLogIn> createState() => _CustomerLogInState();
 }
 
-class _CustomerSignUpState extends State<CustomerSignUp> {
+class _CustomerLogInState extends State<CustomerLogIn> {
   final ImagePicker _picker = ImagePicker();
   late String _name;
   late String _email;
@@ -104,7 +104,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
             'profileImage': _profileImage,
             'cid': _uid,
           });
-          Navigator.pushReplacementNamed(context, '/customer_signup_screen');
+          Navigator.pushReplacementNamed(context, '/customer_screen');
           _formKey.currentState!.reset();
           setState(() {
             _imageFile = null;
@@ -172,7 +172,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           const Text(
-                            'Sign Up',
+                            'Log In',
                             style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
@@ -192,93 +192,12 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                       ),
                     ),
                     Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 30,
-                            horizontal: 40,
-                          ),
-                          child: CircleAvatar(
-                            backgroundImage: _imageFile == null
-                                ? null
-                                : FileImage(
-                                    File(
-                                      _imageFile!.path,
-                                    ),
-                                  ),
-                            radius: 60,
-                            backgroundColor: Colors.purpleAccent,
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.purple,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                ),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  color: AppColors.white,
-                                ),
-                                onPressed: () {
-                                  _pickImageFromCamera();
-                                  log('pick image from camera');
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.purple,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),
-                                ),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.photo,
-                                  color: AppColors.white,
-                                ),
-                                onPressed: () {
-                                  _pickImageFromGallery();
-                                  log('pick image from gallery');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      children: [],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
                         children: [
-                          TextFormFieldWidget(
-                            onChanged: (value) {
-                              _name = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'please enter your full name';
-                              }
-
-                              return null;
-                            },
-                            keyBoardType: TextInputType.text,
-                            hintText: 'Enter your full name',
-                            labelText: 'Full Name',
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
                           TextFormFieldWidget(
                             onChanged: (value) {
                               _email = value;
@@ -334,18 +253,18 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                             height: 25.0,
                           ),
                           HaveAccountWidget(
-                            haveAccount: 'Already Have Account?',
+                            haveAccount: 'Don\'t Have Account',
+                            actionLabel: 'Sign Up',
                             onTap: () {
                               Navigator.pushReplacementNamed(
-                                  context, '/customer_login_screen');
+                                  context, '/customer_signup_screen');
                             },
-                            actionLabel: 'Log In',
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(
-                      height: 55,
+                      height: 45,
                     ),
                     processing == true
                         ? const Center(
@@ -354,7 +273,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                             ),
                           )
                         : AuthMainButtonWidget(
-                            mainButtonLabel: 'Sign Up',
+                            mainButtonLabel: 'Log In',
                             onTap: () async {
                               signUp();
                             },
