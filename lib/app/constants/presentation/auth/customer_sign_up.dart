@@ -330,6 +330,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               ),
                             ),
                           ),
+                          
                           const SizedBox(
                             height: 25.0,
                           ),
