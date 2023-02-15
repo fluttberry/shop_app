@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -234,7 +234,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                       onPressed: () async {
                         await FirebaseAuth.instance.signInAnonymously();
-                        // ignore: use_build_context_synchronously
+
                         Navigator.pushReplacementNamed(
                             context, '/customer_screen');
                       },

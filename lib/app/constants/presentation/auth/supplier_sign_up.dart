@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
@@ -11,17 +11,16 @@ import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_snack_bar_widget/my_message_handler.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_widgets/have_account_widget.dart';
 import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
-import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
 
-class CustomerSignUp extends StatefulWidget {
-  const CustomerSignUp({super.key});
+class SuppliersSignUp extends StatefulWidget {
+  const SuppliersSignUp({super.key});
 
   @override
-  State<CustomerSignUp> createState() => _CustomerSignUpState();
+  State<SuppliersSignUp> createState() => _SuppliersSignUpState();
 }
 
-class _CustomerSignUpState extends State<CustomerSignUp> {
+class _SuppliersSignUpState extends State<SuppliersSignUp> {
   final ImagePicker _picker = ImagePicker();
   late String _storeName;
   late String _email;
@@ -74,7 +73,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
     }
   }
 
-  CollectionReference customers =
+  CollectionReference suppliers =
       FirebaseFirestore.instance.collection('suppliers');
 
   void signUp() async {
@@ -94,17 +93,17 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
               .FirebaseStorage.instance
               .ref('cust-image/$_email.jpg');
           await ref.putFile(File(_imageFile!.path));
-          _profileImage = await ref.getDownloadURL();
+          _storeLogo = await ref.getDownloadURL();
           _uid = FirebaseAuth.instance.currentUser!.uid;
-          customers.doc(_uid).set({
-            'namw': _name,
+          suppliers.doc(_uid).set({
+            'namw': _storeName,
             'email': _email,
             'phone': '',
             'address': '',
-            'profileImage': _profileImage,
+            'profileImage': _storeLogo,
             'cid': _uid,
           });
-          Navigator.pushReplacementNamed(context, '/customer_signup_screen');
+          Navigator.pushReplacementNamed(context, '/supplier_singuo_screen');
           _formKey.currentState!.reset();
           setState(() {
             _imageFile = null;
@@ -263,7 +262,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         children: [
                           TextFormFieldWidget(
                             onChanged: (value) {
-                              _name = value;
+                              _storeName = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -330,7 +329,6 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               ),
                             ),
                           ),
-                          
                           const SizedBox(
                             height: 25.0,
                           ),
@@ -378,3 +376,4 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
+

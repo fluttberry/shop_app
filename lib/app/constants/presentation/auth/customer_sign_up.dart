@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
@@ -11,7 +11,6 @@ import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_snack_bar_widget/my_message_handler.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_widgets/have_account_widget.dart';
 import 'package:shop_app/app/constants/presentation/widgets/auth_widgets/text_form_field_widget.dart';
-import 'package:shop_app/app/constants/text_styles/app_text_styles.dart';
 import 'auth_widgets/auth_main_button_widget.dart';
 
 class CustomerSignUp extends StatefulWidget {
@@ -330,7 +329,6 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               ),
                             ),
                           ),
-                          
                           const SizedBox(
                             height: 25.0,
                           ),
