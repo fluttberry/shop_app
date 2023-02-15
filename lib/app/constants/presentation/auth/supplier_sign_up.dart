@@ -91,7 +91,7 @@ class _SuppliersSignUpState extends State<SuppliersSignUp> {
           );
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
-              .ref('cust-image/$_email.jpg');
+              .ref('suppliers-image/$_email.jpg');
           await ref.putFile(File(_imageFile!.path));
           _storeLogo = await ref.getDownloadURL();
           _uid = FirebaseAuth.instance.currentUser!.uid;
@@ -103,7 +103,7 @@ class _SuppliersSignUpState extends State<SuppliersSignUp> {
             'profileImage': _storeLogo,
             'cid': _uid,
           });
-          Navigator.pushReplacementNamed(context, '/supplier_singuo_screen');
+          Navigator.pushReplacementNamed(context, '/supplier_singup_screen');
           _formKey.currentState!.reset();
           setState(() {
             _imageFile = null;
@@ -336,7 +336,7 @@ class _SuppliersSignUpState extends State<SuppliersSignUp> {
                             haveAccount: 'Already Have Account?',
                             onTap: () {
                               Navigator.pushReplacementNamed(
-                                  context, '/customer_login_screen');
+                                  context, '/supplier_login_screen');
                             },
                             actionLabel: 'Log In',
                           ),

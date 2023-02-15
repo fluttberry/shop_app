@@ -154,13 +154,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               lable: 'Log In',
                               onTap: () {
                                 Navigator.pushReplacementNamed(
-                                    context, '/supplier_home_screen');
+                                    context, '/supplier_login_screen');
                               },
                               width: 0.25,
                             ),
                             YellowButtonWidget(
                               lable: 'Sign Up',
-                              onTap: () {},
+                              onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context, '/supplier_signup_screen');
+                              },
                               width: 0.25,
                             ),
                           ],
