@@ -96,7 +96,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
           _profileImage = await ref.getDownloadURL();
           _uid = FirebaseAuth.instance.currentUser!.uid;
           customers.doc(_uid).set({
-            'namw': _name,
+            'name': _name,
             'email': _email,
             'phone': '',
             'address': '',

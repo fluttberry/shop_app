@@ -376,4 +376,3 @@ extension EmailValidator on String {
         .hasMatch(this);
   }
 }
-
