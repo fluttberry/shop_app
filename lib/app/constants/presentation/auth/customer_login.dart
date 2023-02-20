@@ -50,9 +50,15 @@ class _CustomerLogInState extends State<CustomerLogIn> {
         if (e.code == 'user-not-found') {
           MyMessageHandler.showSnackBar(
               _scaffoldKey, 'No user found for that email.');
+              setState(() {
+      processing = false;
+    });
         } else if (e.code == 'wrong-password') {
           MyMessageHandler.showSnackBar(
               _scaffoldKey, 'Wrong password provided for that user.');
+              setState(() {
+      processing = false;
+    });
         }
       }
     } else {
@@ -61,6 +67,9 @@ class _CustomerLogInState extends State<CustomerLogIn> {
       });
       log('not valid');
       MyMessageHandler.showSnackBar(_scaffoldKey, 'Not Valid');
+      setState(() {
+      processing = false;
+    });
     }
   }
 
