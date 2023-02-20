@@ -113,9 +113,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     width: 20,
                                   ),
                                   Text(
-                                    data['namw'] == ''
+                                    data['name'] == ''
                                         ? 'guest'.toLowerCase()
-                                        : data['namw'].toUpperCase(),
+                                        : data['name'].toUpperCase(),
                                     style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.w600),
@@ -370,4 +370,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-

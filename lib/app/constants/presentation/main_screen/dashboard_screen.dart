@@ -18,7 +18,7 @@ List<IconData> icons = [
   Icons.show_chart,
 ];
 List<String> lable = [
-  'my store'
+      'my store'
       'order'
       'edit profile'
       'manage products'

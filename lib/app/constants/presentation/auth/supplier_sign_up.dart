@@ -96,14 +96,14 @@ class _SuppliersSignUpState extends State<SuppliersSignUp> {
           _storeLogo = await ref.getDownloadURL();
           _uid = FirebaseAuth.instance.currentUser!.uid;
           suppliers.doc(_uid).set({
-            'namw': _storeName,
+            'name': _storeName,
             'email': _email,
             'phone': '',
             'address': '',
             'profileImage': _storeLogo,
             'cid': _uid,
           });
-          Navigator.pushReplacementNamed(context, '/supplier_singup_screen');
+          Navigator.pushReplacementNamed(context, '/supplier_login_screen');
           _formKey.currentState!.reset();
           setState(() {
             _imageFile = null;

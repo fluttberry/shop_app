@@ -257,7 +257,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                       onPressed: () async {
                         setState(() {
-                          processing = true; 
+                          processing = true;
                         });
                         try {
                           await FirebaseAuth.instance
@@ -266,7 +266,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             _uid = FirebaseAuth.instance.currentUser!.uid;
 
                             await customers.doc(_uid).set({
-                              'namw': '',
+                              'name': '',
                               'email': '',
                               'phone': '',
                               'address': '',
