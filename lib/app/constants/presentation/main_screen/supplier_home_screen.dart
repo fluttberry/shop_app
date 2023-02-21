@@ -4,6 +4,7 @@ import 'package:shop_app/app/constants/presentation/main_screen/category_screen.
 import 'package:shop_app/app/constants/presentation/main_screen/dashboard_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/home_screen.dart';
 import 'package:shop_app/app/constants/presentation/main_screen/store_screen.dart';
+import 'package:shop_app/app/constants/presentation/main_screen/upload_screen.dart';
 
 class SupplierHomeScreen extends StatefulWidget {
   const SupplierHomeScreen({super.key});
@@ -19,9 +20,7 @@ class _CustomerScreenState extends State<SupplierHomeScreen> {
     const CategoryScreen(),
     const StoreScreen(),
     const DashboardScreen(),
-    const Center(
-      child: Text('Upload'),
-    ),
+    const UploadScreen(),
   ];
   @override
   Widget build(BuildContext context) {
