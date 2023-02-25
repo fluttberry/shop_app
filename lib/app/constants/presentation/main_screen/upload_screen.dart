@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:shop_app/app/constants/colors/app_colors.dart';
+import 'package:shop_app/app/utilities/categ_list.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -11,6 +11,8 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
+  String mainCategoryValue = maincateg.first;
+  String subCategoryValue = women.first;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -34,15 +36,55 @@ class _UploadScreenState extends State<UploadScreen> {
                 ),
               ),
               Column(
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     '* select main category',
                     style: TextStyle(
                       color: AppColors.red,
                     ),
                   ),
+                  DropdownButton(
+                    iconSize: 40,
+                    iconDisabledColor: AppColors.red,
+                    dropdownColor: AppColors.yellow.shade400,
+                    value: mainCategoryValue,
+                    items: women.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        mainCategoryValue = value!;
+                      });
+                    },
+                  ),
+                  const Text(
+                    '* select subcategory',
+                    style: TextStyle(
+                      color: AppColors.red,
+                    ),
+                  ),
+                  DropdownButton(
+                    iconSize: 40,
+                    iconDisabledColor: AppColors.red,
+                    dropdownColor: AppColors.yellow.shade400,
+                    value: subCategoryValue,
+                    items: women.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        subCategoryValue = value!;
+                      });
+                    },
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ],
@@ -50,3 +92,4 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 }
+//https://www.youtube.com/watch?v=tS5qdZ0frxg 25
