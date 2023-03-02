@@ -2,6 +2,8 @@
 
 import 'dart:developer';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,7 +34,6 @@ class _UploadScreenState extends State<UploadScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -279,7 +280,8 @@ class _UploadScreenState extends State<UploadScreen> {
       ),
     );
   }
-  void uploadProduct() async {
+
+  void uploadImages() async {
     if (mainCategValue != 'select category' || subCategValue != 'subcategory') {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
@@ -298,17 +300,8 @@ class _UploadScreenState extends State<UploadScreen> {
           } catch (e) {
             log('$e');
           }
-          log('iamages picked');
-          log('$price');
-          log('$quantity');
-          log('$productName');
-          log('$productDescription');
-          setState(() {
-            imagesFileList = [];
-            mainCategValue = 'select category';
-            subCategValue = 'subcategory';
-          });
-          _formKey.currentState!.reset();
+
+          
         } else {
           MyMessageHandler.showSnackBar(_scaffoldKey, "Please pick images");
         }
@@ -319,6 +312,36 @@ class _UploadScreenState extends State<UploadScreen> {
       MyMessageHandler.showSnackBar(_scaffoldKey, "Please select category");
     }
   }
+
+  void uploadData() async {
+    if (imagesUrlList.isNotEmpty) {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('products');
+      await collectionReference.doc().set({
+        'mainCategory': mainCategValue,
+        'subCategory': subCategValue,
+        'price': price,
+        'quantity': quantity,
+        'productName': productName,
+        'productDscription': productDescription,
+        'sID': FirebaseAuth.instance.currentUser!.uid,
+        'productImages': imagesUrlList,
+        'discount': 0,
+      }).whenComplete(() {
+        setState(() {
+            imagesFileList = [];
+            mainCategValue = 'select category';
+            subCategValue = 'subcategory';
+          });
+          _formKey.currentState!.reset();
+      });
+    } 
+    // else {
+    //   MyMessageHandler.showSnackBar(_scaffoldKey, "Your imageUrl is empty");
+    // }
+  }
+
+  void uploadProduct() async {}
 
   Widget previewImages() {
     if (imagesFileList.isNotEmpty) {
@@ -420,3 +443,4 @@ extension QuantityValidator on String {
     return RegExp(r'^[1-9][0-9]*$').hasMatch(this);
   }
 }
+//https://www.youtube.com/watch?v=54a_WCelsQo 30
