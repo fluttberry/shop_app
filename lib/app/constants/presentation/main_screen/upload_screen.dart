@@ -11,6 +11,7 @@ import 'package:shop_app/app/constants/colors/app_colors.dart';
 import 'package:shop_app/app/constants/presentation/auth/auth_snack_bar_widget/my_message_handler.dart';
 import 'package:shop_app/app/utilities/categ_list.dart';
 import 'package:path/path.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -24,12 +25,15 @@ class _UploadScreenState extends State<UploadScreen> {
   late int quantity;
   late String productName;
   late String productDescription;
+  late String productId;
+  bool proccessing = false;
   String mainCategValue = 'select category';
   String subCategValue = 'subcategory';
   List<String> subCategoryList = [];
   final ImagePicker _picker = ImagePicker();
   List<XFile> imagesFileList = [];
   List<String> imagesUrlList = [];
+
   dynamic _pickedImageError;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
@@ -270,10 +274,15 @@ class _UploadScreenState extends State<UploadScreen> {
               onPressed: () {
                 uploadProduct();
               },
-              child: const Icon(
-                Icons.upload,
-                color: Colors.black,
-              ),
+              // ignore: unrelated_type_equality_checks
+              child: Process == true
+                  ? const CircularProgressIndicator(
+                      color: AppColors.black,
+                    )
+                  : const Icon(
+                      Icons.upload,
+                      color: Colors.black,
+                    ),
             ),
           ],
         ),
@@ -281,11 +290,14 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 
-  void uploadImages() async {
+  Future<void> uploadImages() async {
     if (mainCategValue != 'select category' || subCategValue != 'subcategory') {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         if (imagesFileList.isNotEmpty) {
+          setState(() {
+            proccessing = true;
+          });
           try {
             for (var image in imagesFileList) {
               firebase_storage.Reference reference = firebase_storage
@@ -300,8 +312,6 @@ class _UploadScreenState extends State<UploadScreen> {
           } catch (e) {
             log('$e');
           }
-
-          
         } else {
           MyMessageHandler.showSnackBar(_scaffoldKey, "Please pick images");
         }
@@ -317,7 +327,10 @@ class _UploadScreenState extends State<UploadScreen> {
     if (imagesUrlList.isNotEmpty) {
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('products');
-      await collectionReference.doc().set({
+      productId = const Uuid().v4();
+      // FirebaseAuth.instance.currentUser!.uid;
+      await collectionReference.doc(productId).set({
+        'productId': productId,
         'mainCategory': mainCategValue,
         'subCategory': subCategValue,
         'price': price,
@@ -329,19 +342,22 @@ class _UploadScreenState extends State<UploadScreen> {
         'discount': 0,
       }).whenComplete(() {
         setState(() {
-            imagesFileList = [];
-            mainCategValue = 'select category';
-            subCategValue = 'subcategory';
-          });
-          _formKey.currentState!.reset();
+          proccessing = false;
+          imagesFileList = [];
+          mainCategValue = 'select category';
+          subCategValue = 'subcategory';
+        });
+        _formKey.currentState!.reset();
       });
-    } 
+    }
     // else {
     //   MyMessageHandler.showSnackBar(_scaffoldKey, "Your imageUrl is empty");
     // }
   }
 
-  void uploadProduct() async {}
+  void uploadProduct() async {
+    await uploadImages().whenComplete(() => uploadData());
+  }
 
   Widget previewImages() {
     if (imagesFileList.isNotEmpty) {
@@ -443,4 +459,3 @@ extension QuantityValidator on String {
     return RegExp(r'^[1-9][0-9]*$').hasMatch(this);
   }
 }
-//https://www.youtube.com/watch?v=54a_WCelsQo 30
