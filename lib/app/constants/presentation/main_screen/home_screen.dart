@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/constants/colors/app_colors.dart';
+import 'package:shop_app/app/constants/presentation/galleries/men_gallery.dart';
 import 'package:shop_app/app/constants/presentation/widgets/fake_search_widget.dart';
-
 
 class HomeSareen extends StatefulWidget {
   const HomeSareen({super.key});
@@ -39,7 +39,7 @@ class _HomeSareenState extends State<HomeSareen> {
               ]),
         ),
         body: const TabBarView(children: [
-          Center(child: Text('men screen')),
+          MenGallery(),
           Center(child: Text('womenscreen')),
           Center(child: Text('shoes screen')),
           Center(child: Text('bags screen')),
@@ -53,4 +53,3 @@ class _HomeSareenState extends State<HomeSareen> {
     );
   }
 }
-
